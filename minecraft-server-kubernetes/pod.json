@@ -1,0 +1,136 @@
+{
+  "kind": "Pod",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "minecrafopenhack-647cb7cc64-knrvp",
+    "generateName": "minecrafopenhack-647cb7cc64-",
+    "namespace": "default",
+    "selfLink": "/api/v1/namespaces/default/pods/minecrafopenhack-647cb7cc64-knrvp",
+    "uid": "38b211cd-aba5-11e8-8a88-02ad3b240abe",
+    "resourceVersion": "2953",
+    "creationTimestamp": "2018-08-29T16:04:34Z",
+    "labels": {
+      "k8s-app": "minecrafopenhack",
+      "pod-template-hash": "2037637720"
+    },
+    "ownerReferences": [
+      {
+        "apiVersion": "apps/v1",
+        "kind": "ReplicaSet",
+        "name": "minecrafopenhack-647cb7cc64",
+        "uid": "38acdf88-aba5-11e8-8a88-02ad3b240abe",
+        "controller": true,
+        "blockOwnerDeletion": true
+      }
+    ]
+  },
+  "spec": {
+    "volumes": [
+      {
+        "name": "default-token-fk979",
+        "secret": {
+          "secretName": "default-token-fk979",
+          "defaultMode": 420
+        }
+      }
+    ],
+    "containers": [
+      {
+        "name": "minecrafopenhack",
+        "image": "openhack/minecraft-server:1.0",
+        "env": [
+          {
+            "name": "EULA",
+            "value": "TRUE"
+          }
+        ],
+        "resources": {},
+        "volumeMounts": [
+          {
+            "name": "default-token-fk979",
+            "readOnly": true,
+            "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount"
+          }
+        ],
+        "terminationMessagePath": "/dev/termination-log",
+        "terminationMessagePolicy": "File",
+        "imagePullPolicy": "IfNotPresent",
+        "securityContext": {
+          "privileged": false
+        }
+      }
+    ],
+    "restartPolicy": "Always",
+    "terminationGracePeriodSeconds": 30,
+    "dnsPolicy": "ClusterFirst",
+    "serviceAccountName": "default",
+    "serviceAccount": "default",
+    "nodeName": "aks-agentpool-42938174-0",
+    "securityContext": {},
+    "schedulerName": "default-scheduler",
+    "tolerations": [
+      {
+        "key": "node.kubernetes.io/not-ready",
+        "operator": "Exists",
+        "effect": "NoExecute",
+        "tolerationSeconds": 300
+      },
+      {
+        "key": "node.kubernetes.io/unreachable",
+        "operator": "Exists",
+        "effect": "NoExecute",
+        "tolerationSeconds": 300
+      }
+    ],
+    "priority": 0
+  },
+  "status": {
+    "phase": "Running",
+    "conditions": [
+      {
+        "type": "Initialized",
+        "status": "True",
+        "lastProbeTime": null,
+        "lastTransitionTime": "2018-08-29T16:04:34Z"
+      },
+      {
+        "type": "Ready",
+        "status": "True",
+        "lastProbeTime": null,
+        "lastTransitionTime": "2018-08-29T16:04:36Z"
+      },
+      {
+        "type": "ContainersReady",
+        "status": "True",
+        "lastProbeTime": null,
+        "lastTransitionTime": null
+      },
+      {
+        "type": "PodScheduled",
+        "status": "True",
+        "lastProbeTime": null,
+        "lastTransitionTime": "2018-08-29T16:04:34Z"
+      }
+    ],
+    "hostIP": "10.240.0.4",
+    "podIP": "10.244.0.5",
+    "startTime": "2018-08-29T16:04:34Z",
+    "containerStatuses": [
+      {
+        "name": "minecrafopenhack",
+        "state": {
+          "running": {
+            "startedAt": "2018-08-29T16:04:35Z"
+          }
+        },
+        "lastState": {},
+        "ready": true,
+        "restartCount": 0,
+        "image": "openhack/minecraft-server:1.0",
+        "imageID": "docker-pullable://openhack/minecraft-server@sha256:cda2881ec66397da8da334c8ff369f56cf9f5b201d19f59cbf3d665107682b95",
+        "containerID": "docker://ec92bd4c0e05ab07e8bfa3503a4b582781f765ae31ecf30fdb9d02642a07054c"
+      }
+    ],
+    "qosClass": "BestEffort"
+  }
+}

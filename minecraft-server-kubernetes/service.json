@@ -1,0 +1,49 @@
+{
+  "kind": "Service",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "minecrafopenhack",
+    "namespace": "default",
+    "selfLink": "/api/v1/namespaces/default/services/minecrafopenhack",
+    "uid": "38c2f81b-aba5-11e8-8a88-02ad3b240abe",
+    "resourceVersion": "3036",
+    "creationTimestamp": "2018-08-29T16:04:34Z",
+    "labels": {
+      "k8s-app": "minecrafopenhack"
+    }
+  },
+  "spec": {
+    "ports": [
+      {
+        "name": "tcp-25565-25565-kj6dr",
+        "protocol": "TCP",
+        "port": 25565,
+        "targetPort": 25565,
+        "nodePort": 30268
+      },
+      {
+        "name": "tcp-25575-25575-bq9m4",
+        "protocol": "TCP",
+        "port": 25575,
+        "targetPort": 25575,
+        "nodePort": 30028
+      }
+    ],
+    "selector": {
+      "k8s-app": "minecrafopenhack"
+    },
+    "clusterIP": "10.0.242.202",
+    "type": "LoadBalancer",
+    "sessionAffinity": "None",
+    "externalTrafficPolicy": "Cluster"
+  },
+  "status": {
+    "loadBalancer": {
+      "ingress": [
+        {
+          "ip": "40.121.109.186"
+        }
+      ]
+    }
+  }
+}
