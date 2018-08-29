@@ -9,6 +9,9 @@ spec:
   containers:
   - name: minecraftserver
     image: openhack/minecraft-server:1.0
+    env:
+      - name: "EULA"
+        value: "TRUE"
     ports:
     - containerPort: 25565
       protocol: TCP
