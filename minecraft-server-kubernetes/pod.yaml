@@ -18,12 +18,18 @@ spec:
     - containerPort: 25575
       protocol: TCP
     resources: {}
+    volumeMounts:
+      - mountPath: "/data"
+        name: volume
     imagePullPolicy: Always
     securityContext:
       capabilities: {}
       privileged: false
+  volumes:
+    - name: volume
+      persistentVolumeClaim:
+        claimName: volume-minecraft
   restartPolicy: Always
   dnsPolicy: ClusterFirst
   serviceAccount: ''
 status: {}
-
