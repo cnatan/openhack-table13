@@ -24,7 +24,7 @@ namespace api.Services
             kservice = new Kubernetes(config);                        
         }
 
-        public List<MinecraftServer> Services()
+        public List<MinecraftServer> ListServices()
         {
             var services = kservice.ListNamespacedService("default");
 

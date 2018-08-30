@@ -22,16 +22,16 @@ namespace api.Controllers
         }
 
         [HttpGet]
-        public List<MinecraftServer> GetServers()
+        public JsonResult ListServices()
         {
             KubernetesService service = new KubernetesService();
-            return service.Services();
+            return Json(service.ListServices());
         }
 
         [HttpPost]
         public void Post([FromBody]string name)
         {
-
+            
         }
 
         [HttpDelete("{name}")]
