@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using api.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers
@@ -11,24 +12,17 @@ namespace api.Controllers
     public class Minecraft : Controller
     {
         [HttpGet]
-        [Route("serverstatus")]
-        public IEnumerable<string> GetStatus()
+        public IEnumerable<MinecraftServer> GetServers()
         {
-            return new string[] { "value1", "value2" };
-        }
-
-        // GET api/values
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
-
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
+            return new MinecraftServer[] { 
+                new MinecraftServer{
+                    Name = "MockServer",
+                    Endpoints = new MinecraftEndpoint {
+                        Minecraft = "127.0.0.1:25565",
+                        RCon = "127.0.0.1:25575"
+                    }
+                }
+             };
         }
 
         // POST api/values
