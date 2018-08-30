@@ -11,17 +11,25 @@ using Microsoft.AspNetCore.Mvc;
 namespace api.Services
 {
     public class KubernetesService
-    {
+    {   
+        //TODO: read k8 namespace from config.
+        private readonly string k8Namespace = "default";
         private IKubernetes kservice;
         public KubernetesService()
         {
             Connect();
         }
 
-        public void Connect()
+        private void Connect()
         {
+            //TODO: read connection config properly.
             var config = KubernetesClientConfiguration.BuildConfigFromConfigFile();
-            kservice = new Kubernetes(config);                        
+            kservice = new Kubernetes(config);
+        }
+
+        public void Delete(string name)
+        {
+            kservice.DeleteNamespacedService(new V1DeleteOptions(), name, this.k8Namespace);
         }
 
         public List<MinecraftServer> ListServices()
