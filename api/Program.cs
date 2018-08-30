@@ -26,6 +26,7 @@ namespace api
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
                 .UseConfiguration(config)
+                .UseUrls("http://0.0.0.0:8888")
                 .Build();
     }
 }
