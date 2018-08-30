@@ -1,13 +1,17 @@
-var serverAddress = 'http://172.16.150.143:8888/api/minecraft/'
+var serverAddress = 'http://168.61.216.55:8888/api/minecraft/'
 
 function deleteServer(serverName) {
-    return $.ajax({
-        url: serverAddress + serverName,
-        type: 'delete',
-        success: data => {
-            console.log('Delete returned with success: ', data);
-        }
-    });
+    if (confirm('Do you really want to delete "' + serverName + '"?'))
+        return $.ajax({
+            url: serverAddress + serverName,
+            type: 'delete',
+            success: data => {
+                alert('Delete with success: ', JSON.stringify(data));
+            },
+            error: data => {
+                alert('Error when deleting the server: ', JSON.stringify(data));
+            }
+        });
 }
 
 function createServer() {
@@ -22,7 +26,10 @@ function createServer() {
         contentType: 'application/json',
         data: JSON.stringify(postData),
         success: data => {
-            console.log('Create returned with success: ', data);
+            alert('Create returned with success: ', JSON.stringify(data));
+        },
+        error: data => {
+            alert('Error when creating the server: ', JSON.stringify(data));
         }
     });
 }
