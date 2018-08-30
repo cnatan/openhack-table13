@@ -5,12 +5,20 @@ using System.Net;
 using System.Threading.Tasks;
 using api.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 
 namespace api.Controllers
 {
     [Route("api/[controller]")]
-    public class Minecraft : Controller
+    public class MinecraftController : Controller
     {
+        private IConfiguration config;
+
+        public MinecraftController(IConfiguration config)
+        {
+            this.config = config;
+        }
+
         [HttpGet]
         public IEnumerable<MinecraftServer> GetServers()
         {
@@ -25,22 +33,16 @@ namespace api.Controllers
              };
         }
 
-        // POST api/values
         [HttpPost]
-        public void Post([FromBody]string value)
+        public void Post([FromBody]string name)
         {
+
         }
 
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        [HttpDelete("{name}")]
+        public void Delete(string name)
         {
-        }
 
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
         }
     }
 }

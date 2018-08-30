@@ -33,7 +33,7 @@ namespace api
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            
             app.UseMvc();
         }
     }

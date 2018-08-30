@@ -14,12 +14,18 @@ namespace api
     {
         public static void Main(string[] args)
         {
-            BuildWebHost(args).Run();
+            var config = new ConfigurationBuilder()
+            .AddEnvironmentVariables(prefix: "MINECRAFT_API_")
+            .AddCommandLine(args)
+            .Build();
+
+            BuildWebHost(args, config).Run();
         }
 
-        public static IWebHost BuildWebHost(string[] args) =>
+        public static IWebHost BuildWebHost(string[] args, IConfiguration config) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
+                .UseConfiguration(config)
                 .Build();
     }
 }
