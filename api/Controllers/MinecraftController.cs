@@ -24,7 +24,7 @@ namespace api.Controllers
         [HttpGet]
         public List<MinecraftServer> GetServers()
         {
-            KubernetesService service = new KubernetesService();
+            KubernetesService service = new KubernetesService(this.config);
             return service.Services();
         }
 
@@ -37,7 +37,7 @@ namespace api.Controllers
         [HttpDelete("{name}")]
         public void Delete(string name)
         {
-            KubernetesService service = new KubernetesService();
+            KubernetesService service = new KubernetesService(this.config);
             service.Delete(name);
         }
     }

@@ -7,23 +7,45 @@ using api.Models;
 using k8s;
 using k8s.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 
 namespace api.Services
 {
     public class KubernetesService
     {   
         //TODO: read k8 namespace from config.
-        private readonly string k8Namespace = "default";
+        private string k8Namespace;
         private IKubernetes kservice;
-        public KubernetesService()
+        private IConfiguration appConfig; 
+        public KubernetesService(IConfiguration appConfig)
         {
+            this.appConfig = appConfig;
+            this.k8Namespace = appConfig.GetValue<string>("K8_TARGET_NAMESPACE");
             Connect();
         }
 
+        private KubernetesClientConfiguration GetKubernetesClient()
+        {
+            KubernetesClientConfiguration config = new KubernetesClientConfiguration();
+            
+            config.AccessToken = appConfig.GetValue<string>("K8_ACCESS_TOKEN");
+            config.ClientCertificateData = appConfig.GetValue<string>("K8_CLIENT_CERTIFICATE_DATA");
+            config.ClientCertificateKeyData = appConfig.GetValue<string>("K8_CLIENT_CERTIFICATE_KEY_DATA");
+            config.ClientKeyFilePath = "";
+            config.ClientCertificateFilePath = "";
+            config.Host = appConfig.GetValue<string>("K8_TARGET_HOST");
+            config.Namespace = "";
+            config.Password = "";
+            config.SkipTlsVerify = true;
+            config.SslCaCert = null;
+            config.UserAgent = null;
+            config.Username = null;
+            
+            return config;
+        }
         private void Connect()
         {
-            //TODO: read connection config properly.
-            var config = KubernetesClientConfiguration.BuildConfigFromConfigFile();
+            KubernetesClientConfiguration config = GetKubernetesClient();
             kservice = new Kubernetes(config);
         }
 
