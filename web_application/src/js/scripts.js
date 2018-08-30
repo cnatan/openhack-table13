@@ -1,4 +1,14 @@
-var serverAddress = 'http://172.16.150.143:8888/api/minecraft/'
+var serverAddress = 'http://168.61.216.55:8888/api/minecraft/'
+
+$.ajaxSetup({
+    beforeSend: function () {
+        $('#loader').show();
+    },
+    complete: function () {
+        $('#loader').hide();
+    },
+    success: function () {}
+});
 
 function loadServerTable(should_include_action = false) {
     const response = $.ajax(serverAddress);

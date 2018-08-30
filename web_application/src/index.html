@@ -8,11 +8,12 @@
     <meta name="author" content="">
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin=" anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/spin.js/2.3.2/spin.min.js"></script>
     <script src="js/scripts.js"></script>
     <script src="js/service-agent.js"></script>
     <link rel="icon" href="../../../../favicon.ico">
 
-    <title>Dashboard Template for Bootstrap</title>
+    <title>Minecraft Servers Co</title>
 
     <!-- Bootstrap core CSS -->
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
@@ -59,6 +60,12 @@
                             </th>
                         </tr>
                     </table>
+                    <div id="loader">
+                        <script type="text/javascript">
+                            var spinner = new Spinner().spin();
+                            $('#loader').append(spinner.el);
+                        </script>
+                    </div>
                     <script type="text/javascript">
                         $(document).ready(() => {
                             loadServerTable();
