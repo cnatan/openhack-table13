@@ -51,7 +51,19 @@ namespace api.Services
 
         public void Delete(string name)
         {
+            // Get service to delete.
+            var services =  kservice.ListNamespacedService(k8Namespace);
+            var serviceToRemove = services.Items.FirstOrDefault(s=> s.Metadata.Name == name);
+            var serviceSelector = serviceToRemove.Spec.Selector["run"];
+            // Delete service.
             kservice.DeleteNamespacedService(new V1DeleteOptions(), name, this.k8Namespace);
+            // Get pods to delete.
+            var pods = kservice.ListNamespacedPod(k8Namespace);
+            var podsToRemove = pods.Items.Where(p=> p.Metadata.Labels.Any(l=> l.Key == "run" && l.Value == serviceSelector));
+            foreach (var podToRemove in podsToRemove)
+            {
+                kservice.DeleteNamespacedPod(new V1DeleteOptions(), podToRemove.Metadata.Name, k8Namespace);
+            }
         }
 
         public void Add(string name)
