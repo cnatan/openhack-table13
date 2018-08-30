@@ -10,22 +10,23 @@ using Microsoft.AspNetCore.Mvc;
 namespace api.Services
 {
     public class KubernetesService
-    {
+    {   
+        private readonly string k8Namespace = "default";
+        private IKubernetes kservice;
         public KubernetesService()
         {
-            
+            Connect();
         }
 
-        public string Connect()
+        public void Connect()
         {
             var config = KubernetesClientConfiguration.BuildConfigFromConfigFile();
-            IKubernetes client = new Kubernetes(config);
-            Console.WriteLine("Starting Request!");
+            kservice = new Kubernetes(config);
+        }
 
-            var list = client.ListNamespacedPod("default");
-            var pod = list.Items[0];          
-
-            return pod.ToString();             
+        public void Delete(string name)
+        {
+            kservice.DeleteNamespacedService(new V1DeleteOptions(), name, this.k8Namespace);
         }
 
     } 

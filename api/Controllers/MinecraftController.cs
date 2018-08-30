@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using api.Models;
+using api.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
@@ -34,15 +35,16 @@ namespace api.Controllers
         }
 
         [HttpPost]
-        public void Post([FromBody]string name)
+        public void Post([FromBody]MinecraftServer request)
         {
-
+            var name = request.Name;
         }
 
         [HttpDelete("{name}")]
         public void Delete(string name)
         {
-
+            KubernetesService service = new KubernetesService();
+            service.Delete(name);
         }
     }
 }
