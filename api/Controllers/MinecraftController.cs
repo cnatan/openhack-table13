@@ -4,6 +4,8 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using api.Models;
+using api.Services;
+using k8s.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
@@ -20,17 +22,10 @@ namespace api.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<MinecraftServer> GetServers()
+        public List<MinecraftServer> GetServers()
         {
-            return new MinecraftServer[] { 
-                new MinecraftServer{
-                    Name = "MockServer",
-                    Endpoints = new MinecraftEndpoint {
-                        Minecraft = "127.0.0.1:25565",
-                        RCon = "127.0.0.1:25575"
-                    }
-                }
-             };
+            KubernetesService service = new KubernetesService();
+            return service.Services();
         }
 
         [HttpPost]
