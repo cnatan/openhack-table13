@@ -31,11 +31,8 @@ namespace api.Controllers
         [HttpPost]
         public void Post([FromBody]MinecraftServer request)
         {
-<<<<<<< HEAD
-            
-=======
-            var name = request.Name;
->>>>>>> 59fb0613bb193a0f8a8ac7cdf9c183dde687a026
+            KubernetesService service = new KubernetesService();
+            service.Add(request.Name);
         }
 
         [HttpDelete("{name}")]

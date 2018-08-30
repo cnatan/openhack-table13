@@ -32,6 +32,35 @@ namespace api.Services
             kservice.DeleteNamespacedService(new V1DeleteOptions(), name, this.k8Namespace);
         }
 
+        public void Add(string name)
+        {
+            try
+            {
+                kservice.CreateNamespacedService(ServiceBody(name), this.k8Namespace);
+            }
+            catch (System.Exception ex)
+            {                
+                throw ex;
+            }
+            
+        }
+
+        private V1Service ServiceBody(string name)
+        {
+            V1Service service = new V1Service();
+            service.ApiVersion = "v1";
+            service.Kind = "Service";
+            service.Metadata = new V1ObjectMeta() { Name = name};
+            
+            
+            var serviceSpec = new V1ServiceSpec() { Type = "LoadBalancer", Ports = new List<V1ServicePort>() };
+            serviceSpec.Ports.Add(new V1ServicePort(){ Name = "main" , Port = 25565 });
+            serviceSpec.Ports.Add(new V1ServicePort(){ Name = "openhackcheck" , Port = 25575 });
+
+            service.Spec = serviceSpec;
+            return service;
+        }
+
         public List<MinecraftServer> ListServices()
         {
             var services = kservice.ListNamespacedService("default");
