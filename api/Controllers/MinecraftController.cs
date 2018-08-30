@@ -24,21 +24,21 @@ namespace api.Controllers
         [HttpGet]
         public JsonResult ListServices()
         {
-            KubernetesService service = new KubernetesService();
+            KubernetesService service = new KubernetesService(this.config);
             return Json(service.ListServices());
         }
 
         [HttpPost]
         public void Post([FromBody]MinecraftServer request)
         {
-            KubernetesService service = new KubernetesService();
+            KubernetesService service = new KubernetesService(this.config);
             service.Add(request.Name);
         }
 
         [HttpDelete("{name}")]
         public void Delete(string name)
         {
-            KubernetesService service = new KubernetesService();
+            KubernetesService service = new KubernetesService(this.config);
             service.Delete(name);
         }
     }
