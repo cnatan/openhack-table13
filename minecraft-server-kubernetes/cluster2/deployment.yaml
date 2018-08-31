@@ -1,0 +1,30 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: minecraft-deployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: minecraft
+    spec:
+      containers:
+      - env:
+        - name: EULA
+          value: "TRUE"
+        image: openhack/minecraft-server
+        name: minecraft
+        ports:
+        - containerPort: 25565
+        - containerPort: 25575
+        resources:
+          limits:
+            memory: "2Gi"
+        volumeMounts:
+          - mountPath: /data
+            name: minecraft-volume
+      volumes:
+        - name: minecraft-volume
+          persistentVolumeClaim:
+            claimName: volume-minecraft
