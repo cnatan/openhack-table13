@@ -32,14 +32,14 @@ namespace api.Controllers
         public void Post([FromBody]MinecraftServer request)
         {
             KubernetesService service = new KubernetesService(this.config);
-            service.Add(request.Name);
+            service.Add(request.Name.ToLower());
         }
 
         [HttpDelete("{name}")]
         public void Delete(string name)
         {
             KubernetesService service = new KubernetesService(this.config);
-            service.Delete(name);
+            service.Delete(name.ToLower());
         }
     }
 }
