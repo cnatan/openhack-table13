@@ -68,15 +68,47 @@ namespace api.Services
 
         public void Add(string name)
         {
-            try
-            {
-                kservice.CreateNamespacedService(ServiceBody(name), this.k8Namespace);
-            }
-            catch (System.Exception ex)
-            {                
-                throw ex;
-            }
-            
+            kservice.CreateNamespacedService(ServiceBody(name), this.k8Namespace);
+            kservice.CreateNamespacedPod(Pod(name), this.k8Namespace);            
+        }
+
+        private V1Pod Pod(string name)
+        {
+            V1Pod pod = new V1Pod();
+            pod.Kind = "Pod";
+            pod.ApiVersion = "v1";
+            pod.Metadata =  new V1ObjectMeta() { Name = name , Labels =  new Dictionary<string,string>()};
+            pod.Metadata.Labels.Add("run",name);
+
+            pod.Spec = new V1PodSpec() { Containers = new List<V1Container>() ,};
+            var env1 = new V1EnvVar() { Name = "EULA" , Value = "TRUE" };
+
+            var port1 = new V1ContainerPort(25565);
+            var port2 = new V1ContainerPort(25575);
+
+            V1VolumeMount v1mount = new V1VolumeMount("/data", "volume");
+
+            V1Container container = new V1Container() 
+            { Name = name , Image = "openhack/minecraft-server:2.0" ,
+             Env =   new List<V1EnvVar>() , 
+             Ports = new List<V1ContainerPort>(),
+             VolumeMounts = new List<V1VolumeMount>()
+             };
+
+            container.Ports.Add(port1);
+            container.Ports.Add(port2);
+
+            container.VolumeMounts.Add(v1mount);
+
+            container.Env.Add(env1);
+            pod.Spec.Containers.Add(container);
+
+            V1Volume v1Volume = new V1Volume() { Name = "volume", PersistentVolumeClaim = new V1PersistentVolumeClaimVolumeSource() { ClaimName = "volume-minecraft" }};
+
+            pod.Spec.Volumes = new List<V1Volume>();
+            pod.Spec.Volumes.Add(v1Volume);
+
+            return pod;
         }
 
         private V1Service ServiceBody(string name)
@@ -87,9 +119,10 @@ namespace api.Services
             service.Metadata = new V1ObjectMeta() { Name = name};
             
             
-            var serviceSpec = new V1ServiceSpec() { Type = "LoadBalancer", Ports = new List<V1ServicePort>() };
+            var serviceSpec = new V1ServiceSpec() { Type = "LoadBalancer", Ports = new List<V1ServicePort>(), Selector =  new Dictionary<string,string>() };
             serviceSpec.Ports.Add(new V1ServicePort(){ Name = "main" , Port = 25565 });
             serviceSpec.Ports.Add(new V1ServicePort(){ Name = "openhackcheck" , Port = 25575 });
+            serviceSpec.Selector.Add("run",name);
 
             service.Spec = serviceSpec;
             return service;
